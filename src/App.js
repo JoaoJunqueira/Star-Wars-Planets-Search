@@ -1,12 +1,15 @@
 import React from 'react';
-import './App.css';
+import Provider from './context/myProvider';
+import Table from './components/Table';
+// import request from './requestAPI';
+// import './App.css';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider>
+      <Table />
+    </Provider>
   );
 }
 
 export default App;
-
-//
