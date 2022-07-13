@@ -10,31 +10,29 @@ function Table() {
   return (
     <div>
       <table>
-        <tbody>
-          <tr>
-            { keys !== undefined
-              ? keys.map((item) => <td key={ item }>{item}</td>) : null }
-          </tr>
-          {
-            keys !== undefined ? value.map((item) => (
-              <tr key={ item.name }>
-                <th>{item.name}</th>
-                <th>{item.rotation_period}</th>
-                <th>{item.orbital_period}</th>
-                <th>{item.diameter}</th>
-                <th>{item.climate}</th>
-                <th>{item.gravity}</th>
-                <th>{item.terrain}</th>
-                <th>{item.surface_water}</th>
-                <th>{item.population}</th>
-                <th>{item.films}</th>
-                <th>{item.created}</th>
-                <th>{item.edited}</th>
-                <th>{item.url}</th>
-              </tr>
-            )) : null
-          }
-        </tbody>
+        <tr>
+          { keys !== undefined
+            ? keys.map((item) => <th key={ item }>{item}</th>) : null }
+        </tr>
+        {
+          keys !== undefined ? value.map((item) => (
+            <tr key={ item.name }>
+              <td>{item.name}</td>
+              <td>{item.rotation_period}</td>
+              <td>{item.orbital_period}</td>
+              <td>{item.diameter}</td>
+              <td>{item.climate}</td>
+              <td>{item.gravity}</td>
+              <td>{item.terrain}</td>
+              <td>{item.surface_water}</td>
+              <td>{item.population}</td>
+              <td>{item.films}</td>
+              <td>{item.created}</td>
+              <td>{item.edited}</td>
+              <td>{item.url}</td>
+            </tr>
+          )) : null
+        }
       </table>
     </div>
   );
