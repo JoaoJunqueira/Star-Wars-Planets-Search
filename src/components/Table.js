@@ -1,12 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const value = useContext(Context);
+  const { state, filterByName, setName } = useContext(Context);
+
   let keys;
-  if (value.length !== 0) {
-    keys = Object.keys(value[0]);
+  if (state.length !== 0) {
+    keys = Object.keys(state[0]);
   }
+
+  useEffect(() => {
+    setName(filterByName);
+  }, [filterByName]);
+
+  const filter1 = (item) => {
+    if (filterByName !== '') {
+      return item.name.includes(filterByName);
+    }
+    return item;
+  };
+
   return (
     <div>
       <table>
@@ -15,7 +28,7 @@ function Table() {
             ? keys.map((item) => <th key={ item }>{item}</th>) : null }
         </tr>
         {
-          keys !== undefined ? value.map((item) => (
+          keys !== undefined ? state.filter(filter1).map((item) => (
             <tr key={ item.name }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>

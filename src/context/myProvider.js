@@ -7,6 +7,8 @@ const INITIAL_STATE = [];
 
 function Provider({ children }) {
   const [state, setState] = useState(INITIAL_STATE);
+  const [filterByName, setName] = useState('');
+
   useEffect(() => {
     const fetchRequest = async () => {
       const results = await request();
@@ -16,7 +18,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <Context.Provider value={ state }>
+    <Context.Provider value={ { state, filterByName, setName } }>
       {children}
     </Context.Provider>
   );

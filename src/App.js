@@ -1,5 +1,6 @@
 import React from 'react';
 import Provider from './context/myProvider';
+import Form from './components/Form';
 import Table from './components/Table';
 // import request from './requestAPI';
 // import './App.css';
@@ -7,6 +8,7 @@ import Table from './components/Table';
 function App() {
   return (
     <Provider>
+      <Form />
       <Table />
     </Provider>
   );
