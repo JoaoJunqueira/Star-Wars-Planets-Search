@@ -8,6 +8,12 @@ const INITIAL_STATE = [];
 function Provider({ children }) {
   const [state, setState] = useState(INITIAL_STATE);
   const [filterByName, setName] = useState('');
+  //
+  const [filterByNumericValues, setValues] = useState([{
+    column: 'population',
+    comparison: 'igual a',
+    value: 0,
+  }]);
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -18,7 +24,23 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <Context.Provider value={ { state, filterByName, setName } }>
+    <Context.Provider
+      value={
+        { state,
+          setState,
+          filterByName,
+          setName,
+          filterByNumericValues,
+          setValues }
+        // setValues }
+        // columnFilter,
+        // setColumn,
+        // comparison,
+        // setComparison,
+        // value,
+        // setValue,
+      }
+    >
       {children}
     </Context.Provider>
   );
