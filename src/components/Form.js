@@ -31,13 +31,6 @@ function Form() {
     const col = filterByNumericValues[0].column;
     const com = filterByNumericValues[0].comparison;
     const val = filterByNumericValues[0].value;
-    console.log('item', col);
-    // console.log(array[0]);
-    // if (array[0].comparison === 'maior que'
-    // && item[column] !== 'unknown'
-    // && item[column] > Number(value)) {
-    //   return item;
-    // }
     if (com === 'maior que' && item[col] !== 'unknown') {
       return item[col] > Number(val);
     }
@@ -88,9 +81,9 @@ function Form() {
           value={ comparison }
           onChange={ handleComparison }
         >
-          <option>igual a</option>
           <option>maior que</option>
           <option>menor que</option>
+          <option>igual a</option>
         </select>
       </label>
       <label htmlFor="value-filter">
@@ -99,6 +92,7 @@ function Form() {
           data-testid="value-filter"
           type="number"
           value={ value }
+          defaultValue={ 0 }
           onChange={ handleValue }
         />
       </label>
