@@ -16,8 +16,10 @@ function Form() {
 
   const { column, comparison, value } = obj[0];
 
-  // const planets = state.map((planet) => planet);
-  // const attributes = options.map((option) => option);
+  const planets = state.map((planet) => planet);
+  const attributes = options.map((option) => option);
+  console.log(planets);
+  console.log(attributes);
 
   const handleColumn = (e) => {
     const obj2 = obj[0];
