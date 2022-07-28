@@ -5,32 +5,42 @@ function Form() {
   const {
     state,
     setState,
-    filterByName, setName, filterByNumericValues, setValues } = useContext(Context);
-  const { column, comparison, value } = filterByNumericValues;
-  // console.log(state);
+    filterByName,
+    setName,
+    filterByNumericValues,
+    setValues,
+    obj,
+    setObj,
+    options,
+    setOptions } = useContext(Context);
+
+  const { column, comparison, value } = obj[0];
+
+  // const planets = state.map((planet) => planet);
+  // const attributes = options.map((option) => option);
 
   const handleColumn = (e) => {
-    const obj = filterByNumericValues;
-    obj[0].column = e.target.value;
-    setValues(obj);
+    const obj2 = obj[0];
+    obj2.column = e.target.value;
+    setObj([obj2]);
   };
 
   const handleComparison = (e) => {
-    const obj = filterByNumericValues;
-    obj[0].comparison = e.target.value;
-    setValues(obj);
+    const obj2 = obj[0];
+    obj2.comparison = e.target.value;
+    setObj([obj2]);
   };
 
   const handleValue = (e) => {
-    const obj = filterByNumericValues;
-    obj[0].value = Number(e.target.value);
-    setValues(obj);
+    const obj2 = obj[0];
+    obj2.value = e.target.value;
+    setObj([obj2]);
   };
 
   const filter2 = (item) => {
-    const col = filterByNumericValues[0].column;
-    const com = filterByNumericValues[0].comparison;
-    const val = filterByNumericValues[0].value;
+    const col = obj[0].column;
+    const com = obj[0].comparison;
+    const val = obj[0].value;
     if (com === 'maior que' && item[col] !== 'unknown') {
       return item[col] > Number(val);
     }
@@ -38,15 +48,25 @@ function Form() {
       return item[col] < Number(val);
     }
     if (com === 'igual a' && item[col] !== 'unknown') {
-      // console.log(item[col], val);
       return Number(item[col]) === Number(val);
     }
   };
 
+  const filter3 = (item) => {
+    const col = obj[0].column;
+    return item !== col;
+  };
+
   const handleClick = () => {
-    console.log(state);
+    const col = obj[0].column;
     const filtrado = state.filter(filter2);
     setState(filtrado);
+    const newFilter = filterByNumericValues.concat(obj[0]);
+    setValues(newFilter);
+    if (col === 'population') {
+      const optionFiltered = options.filter(filter3);
+      setOptions(optionFiltered);
+    }
   };
 
   return (
@@ -67,11 +87,9 @@ function Form() {
           value={ column }
           onChange={ handleColumn }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {
+            options.map((option) => <option key={ option }>{option}</option>)
+          }
         </select>
       </label>
       <label htmlFor="comparison-filter">

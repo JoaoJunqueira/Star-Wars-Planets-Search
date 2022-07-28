@@ -9,11 +9,15 @@ function Provider({ children }) {
   const [state, setState] = useState(INITIAL_STATE);
   const [filterByName, setName] = useState('');
   //
-  const [filterByNumericValues, setValues] = useState([{
+  const [filterByNumericValues, setValues] = useState([]);
+  const [obj, setObj] = useState([{
     column: 'population',
     comparison: 'maior que',
     value: 0,
   }]);
+
+  const [options, setOptions] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -31,14 +35,11 @@ function Provider({ children }) {
           filterByName,
           setName,
           filterByNumericValues,
-          setValues }
-        // setValues }
-        // columnFilter,
-        // setColumn,
-        // comparison,
-        // setComparison,
-        // value,
-        // setValue,
+          setValues,
+          obj,
+          setObj,
+          options,
+          setOptions }
       }
     >
       {children}
