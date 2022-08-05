@@ -20,29 +20,27 @@ function Form() {
   const attributes = options.map((option) => option);
   console.log(planets);
   console.log(attributes);
+  const obj2 = obj[0];
+  const col = obj[0].column;
+  const com = obj[0].comparison;
+  const val = obj[0].value;
 
   const handleColumn = (e) => {
-    const obj2 = obj[0];
     obj2.column = e.target.value;
     setObj([obj2]);
   };
 
   const handleComparison = (e) => {
-    const obj2 = obj[0];
     obj2.comparison = e.target.value;
     setObj([obj2]);
   };
 
   const handleValue = (e) => {
-    const obj2 = obj[0];
     obj2.value = e.target.value;
     setObj([obj2]);
   };
 
   const filter2 = (item) => {
-    const col = obj[0].column;
-    const com = obj[0].comparison;
-    const val = obj[0].value;
     if (com === 'maior que' && item[col] !== 'unknown') {
       return item[col] > Number(val);
     }
@@ -54,13 +52,9 @@ function Form() {
     }
   };
 
-  const filter3 = (item) => {
-    const col = obj[0].column;
-    return item !== col;
-  };
+  const filter3 = (item) => item !== col;
 
   const handleClick = () => {
-    const col = obj[0].column;
     const filtrado = state.filter(filter2);
     setState(filtrado);
     const newFilter = filterByNumericValues.concat(obj[0]);
