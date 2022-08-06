@@ -26,19 +26,15 @@ describe('Testes do projeto StarWars', () => {
     expect(global.fetch).toHaveBeenCalled();
     jest.clearAllMocks()
   });
-  // test('Testa se todos os items da tabela estão renderizados na página', () => {
-  //   render(<App />);
-  //   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  //   const table = fetch(url).then((response) => response.json()).then((data) => console.log(data));
-  //   setTimeout(() => {
-  //     for(let i = 0; i < table.length; i += 1){
-  //       const values = Object.values(table[i]);
-  //       for(let j = 0; j < values.length; j += 1){
-  //         expect(values[j]).toBeInTheDocument();
-  //       }
-  //     }
-  //   }, 210)    
-  // });
+  test('Testa se todos os items da tabela estão renderizados na página', async () => {
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(array),
+    }));
+    render(<App />); 
+    const renderedJoke = await screen.findByText('Alderaan');
+    await expect(renderedJoke).resolves.toBeInTheDocument();
+    jest.clearAllMocks();
+  });
   // test('Testa a quantidade de colunas da tabela', () => {
   //   render(<App />);
   //   setTimeout(() => {
@@ -91,3 +87,6 @@ describe('Testes do projeto StarWars', () => {
   //   }, 210)
   // });
 });
+
+// https://testing-library.com/docs/dom-testing-library/api-async/#waitfor
+// https://stackoverflow.com/questions/64718253/react-testing-library-how-to-find-text-in-the-document-which-is-updated-by-seti
