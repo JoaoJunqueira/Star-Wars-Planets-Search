@@ -17,76 +17,131 @@ const array = [
 ];
 
 describe('Testes do projeto StarWars', () => {
-  // retirar o setTimeout
-  test('Testa se a requisição a API foi chamada', () => {
+  test('Testa se a requisição a API foi chamada', async () => {
+    const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
     global.fetch = jest.fn(() => Promise.resolve({
       json: () => Promise.resolve(array),
     }));
     render(<App />);
     expect(global.fetch).toHaveBeenCalled();
+    expect(global.fetch).toHaveBeenCalledWith(url);
+    expect(array).not.toHaveLength(0);
+    expect(array).toHaveLength(10);
     jest.clearAllMocks()
   });
-  test('Testa se todos os items da tabela estão renderizados na página', async () => {
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(array),
-    }));
-    render(<App />); 
-    const renderedJoke = await screen.findByText('Alderaan');
-    await expect(renderedJoke).resolves.toBeInTheDocument();
-    jest.clearAllMocks();
+  test('Testa se existe uma tabela', () => {
+    render(<App />);
+    const table = screen.getByRole('table');
+    expect(table).toBeInTheDocument();
   });
-  // test('Testa a quantidade de colunas da tabela', () => {
-  //   render(<App />);
-  //   setTimeout(() => {
-  //     const rows = screen.getAllByRole('row');
-  //     expect(rows).toHaveLength(13);
-  //   }, 210)
-  // });
-  // test('Testa se tem uma linha para cada planeta', () => {
-  //   render(<App />);
-  //   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  //   const table = fetch(url).then((response) => response.json()).then((data) => console.log(data));
-    // setTimeout(() => {
-    //   const rows = screen.getAllByRole('row');
-    //   for(let i = 1; i < rows.length; i += 1){
-    //     expect(rows[i]).toHaveTextContent(table[i-1].name)
-    //   }
-    // }, 210)
-  // });
+  test('Testa o estado inicial dos filtros', () => {
+    render(<App />);
+    const columnFilter = screen.getByTestId(/column-filter/i);
+    expect(columnFilter).toHaveValue('population');
+    const valueFilter = screen.getByTestId(/value-filter/i);
+    expect(valueFilter).toHaveValue(0);
+    const comparisonFilter = screen.getByTestId(/comparison-filter/i);
+    expect(comparisonFilter).toHaveValue('maior que');
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+    userEvent.click(buttonFilter);
+  });
+  test('Testa se o filtro por coluna é renderizado', () => {
+    render(<App />);
+    const columnFilter = screen.getByTestId(/column-filter/i);
+    expect(columnFilter).toBeInTheDocument();
+    expect(columnFilter).toHaveValue('population');
+    userEvent.selectOptions(columnFilter, 'diameter');
+    expect(columnFilter).toHaveValue('diameter');
+    userEvent.selectOptions(columnFilter, 'orbital_period');
+    expect(columnFilter).toHaveValue('orbital_period');
+    userEvent.selectOptions(columnFilter, 'rotation_period');
+    expect(columnFilter).toHaveValue('rotation_period');
+    userEvent.selectOptions(columnFilter, 'surface_water');
+    expect(columnFilter).toHaveValue('surface_water');
+    userEvent.selectOptions(columnFilter, 'population');
+    expect(columnFilter).toHaveValue('population');
+  });
   test('Testa se o filtro por nome é renderizado', () => {
     render(<App />);
     const nameFilter = screen.getByTestId(/name-filter/i);
     expect(nameFilter).toBeInTheDocument();
+    expect(nameFilter).toHaveValue('');
+    userEvent.type(nameFilter, 'o');
+    expect(nameFilter).toHaveValue('o');
+    userEvent.type(nameFilter, 'o');
+    expect(nameFilter).toHaveValue('oo');
   });
-  // mock
-  // test('', () => {
-  //   render(<App />);
-  //   const nameFilter = screen.getByTestId(/name-filter/i);
-  //   setTimeout(() => {
-  //     userEvent.type(nameFilter, 'o')
-  //     const rows = screen.getAllByRole('row');
-  //   }, 210)
-  //   expect(rows).toHaveLength(0);
-  // });
-  // test('', () => {
-  //   render(<App />);
-  //   const nameFilter = screen.getByTestId(/name-filter/i);
-  //   setTimeout(() => {
-  //     userEvent.type(nameFilter, 'oo')
-  //     const rows = screen.getAllByRole('row');
-  //     expect(rows).toHaveLength(3);
-  //   }, 210)
-  // });
-  // test('', () => {
-  //   render(<App />);
-  //   const nameFilter = screen.getByTestId(/name-filter/i);
-  //   setTimeout(() => {
-  //     userEvent.type(nameFilter, 'o')
-  //     const rows = screen.getAllByRole('row');
-  //     expect(rows).toHaveLength(0);
-  //   }, 210)
-  // });
+  test('Testa se o filtro por comparação é renderizado', () => {
+    render(<App />);
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+    const comparisonFilter = screen.getByTestId(/comparison-filter/i);
+    expect(comparisonFilter).toBeInTheDocument();
+    expect(comparisonFilter).toHaveValue('maior que');
+    userEvent.selectOptions(comparisonFilter, 'menor que');
+    expect(comparisonFilter).toHaveValue('menor que');
+    userEvent.click(buttonFilter);
+    userEvent.selectOptions(comparisonFilter, 'igual a');
+    expect(comparisonFilter).toHaveValue('igual a');
+    userEvent.click(buttonFilter);
+    userEvent.selectOptions(comparisonFilter, 'maior que');
+    expect(comparisonFilter).toHaveValue('maior que');
+    userEvent.click(buttonFilter);
+  });
+  test('Testa se o botão de filtro é renderizado', () => {
+    render(<App />);
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+    expect(buttonFilter).toBeInTheDocument();
+    userEvent.click(buttonFilter);
+  });
+  test('Testa se o filtro numérico é renderizado', () => {
+    render(<App />);
+    const valueFilter = screen.getByTestId(/value-filter/i);
+    expect(valueFilter).toHaveValue(0);
+    userEvent.type(valueFilter, '10');
+    expect(valueFilter).toHaveValue(10);
+  });
+  test('Testa se a opção population desaparece após ser utilizada', () => {
+    render(<App />);
+    const columnFilter = screen.getByTestId(/column-filter/i);
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+    const population = screen.getByText(/population/i);
+    expect(columnFilter).toHaveValue('population');
+    userEvent.click(buttonFilter);
+    expect(columnFilter).not.toHaveValue('population');
+    expect(population).not.toBeInTheDocument();
+  });
+  test('Testa o uso de 2 filtros', () => {
+    render(<App />);
+    const comparisonFilter = screen.getByTestId(/comparison-filter/i);
+    const columnFilter = screen.getByTestId(/column-filter/i);
+    userEvent.selectOptions(comparisonFilter, 'menor que');
+    userEvent.selectOptions(columnFilter, 'surface_water');
+    expect(comparisonFilter).toHaveValue('menor que');
+    expect(columnFilter).toHaveValue('surface_water');
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+    userEvent.click(buttonFilter);
+    expect(comparisonFilter).toHaveValue('menor que');
+    expect(columnFilter).toHaveValue('surface_water');
+  });
+  test('Testa o uso de 3 filtros', () => {
+    render(<App />);
+    const comparisonFilter = screen.getByTestId(/comparison-filter/i);
+    const columnFilter = screen.getByTestId(/column-filter/i);
+    const valueFilter = screen.getByTestId(/value-filter/i);
+    userEvent.selectOptions(comparisonFilter, 'menor que');
+    userEvent.selectOptions(columnFilter, 'surface_water');
+    userEvent.type(valueFilter, '10');
+    expect(comparisonFilter).toHaveValue('menor que');
+    expect(columnFilter).toHaveValue('surface_water');
+    expect(valueFilter).toHaveValue(10);
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+    userEvent.click(buttonFilter);
+    expect(comparisonFilter).toHaveValue('menor que');
+    expect(columnFilter).toHaveValue('surface_water');
+    expect(valueFilter).toHaveValue(10);
+  });
 });
 
 // https://testing-library.com/docs/dom-testing-library/api-async/#waitfor
 // https://stackoverflow.com/questions/64718253/react-testing-library-how-to-find-text-in-the-document-which-is-updated-by-seti
+// https://stackoverflow.com/questions/60289503/testing-select-element-in-react-with-jest

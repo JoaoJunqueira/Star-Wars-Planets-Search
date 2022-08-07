@@ -8,7 +8,6 @@ const INITIAL_STATE = [];
 function Provider({ children }) {
   const [state, setState] = useState(INITIAL_STATE);
   const [filterByName, setName] = useState('');
-  //
   const [filterByNumericValues, setValues] = useState([]);
   const [obj, setObj] = useState([{
     column: 'population',
