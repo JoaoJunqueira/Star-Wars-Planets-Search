@@ -19,18 +19,6 @@ const array = [
 ];
 
 describe('Testes do projeto StarWars', () => {
-  // test('Testa se a requisição a API foi chamada', async () => {
-  //   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  //   global.fetch = jest.fn(() => Promise.resolve({
-  //     json: () => Promise.resolve(array),
-  //   }));
-  //   render(<App />);
-  //   expect(global.fetch).toHaveBeenCalled();
-  //   expect(global.fetch).toHaveBeenCalledWith(url);
-  //   expect(array).not.toHaveLength(0);
-  //   expect(array).toHaveLength(10);
-  //   jest.clearAllMocks()
-  // });
   test('Testa se existe uma tabela', async () => {
     // jest.setTimeout(7000);
     const array2 = await mockFetch();
@@ -48,16 +36,29 @@ describe('Testes do projeto StarWars', () => {
     const array2 = await mockFetch();
     const response = await array2.json();
     const results = response.results;
-    console.log(results);
     await waitFor(() => {
       render(<App />);
     }, {timeout: 5000}) 
     const nameFilter = screen.getByRole('textbox');
+    const planet1 = await screen.findByText('Alderaan');
     userEvent.type(nameFilter, 'oo');
-    // const text = await screen.findAllByRole('oo');
-    // expect(text).toBeInTheDocument();
+    expect(planet1).not.toBeInTheDocument();
     jest.clearAllMocks();
   }, 7000)
+  test('Testando o filtro 2', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000})
+    const valueFilter = screen.getByTestId(/value-filter/i);
+    const planet = await screen.findByText('Yavin IV');
+    userEvent.type(valueFilter, '1100');
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+    userEvent.click(buttonFilter);
+    expect(planet).not.toBeInTheDocument();
+  })
   test('Testa o estado inicial dos filtros', () => {
     render(<App />);
     const columnFilter = screen.getByTestId(/column-filter/i);
