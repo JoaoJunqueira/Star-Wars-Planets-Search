@@ -12,7 +12,9 @@ function Form() {
     obj,
     setObj,
     options,
-    setOptions } = useContext(Context);
+    setOptions,
+    order,
+    setOrder } = useContext(Context);
 
   const { column, comparison, value } = obj[0];
 
@@ -117,6 +119,17 @@ function Form() {
       >
         Ativar Filtro
       </button>
+      <label htmlFor="column-sort">
+        <select
+          id="column-sort"
+          data-testid="column-sort"
+          value={ order.column }
+        >
+          {
+            options.map((option) => <option key={ option }>{option}</option>)
+          }
+        </select>
+      </label>
     </form>
   );
 }

@@ -188,11 +188,6 @@ describe('Testes do projeto StarWars', () => {
     expect(columnFilter).toHaveValue('surface_water');
     expect(valueFilter).toHaveValue(10);
   });
-  // test('', async () => {
-  //   await act(async () => {
-  //     render(<App />)
-  //   });
-  // })
 });
 
 // https://testing-library.com/docs/dom-testing-library/api-async/#waitfor
