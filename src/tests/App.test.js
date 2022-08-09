@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event'
 import App from '../App';
+import mockFetch from '../../cypress/mocks/fetch';
 
 const array = [
   {name: 'Tatooine', rotation_period: '23', orbital_period: '304', diameter: '10465', climate: 'arid'},
@@ -18,37 +19,45 @@ const array = [
 ];
 
 describe('Testes do projeto StarWars', () => {
-  // beforeEach(() => {
+  // test('Testa se a requisição a API foi chamada', async () => {
+  //   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
   //   global.fetch = jest.fn(() => Promise.resolve({
   //     json: () => Promise.resolve(array),
   //   }));
-  // })
-  test('Testa se a requisição a API foi chamada', async () => {
-    const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(array),
-    }));
-    render(<App />);
-    expect(global.fetch).toHaveBeenCalled();
-    expect(global.fetch).toHaveBeenCalledWith(url);
-    expect(array).not.toHaveLength(0);
-    expect(array).toHaveLength(10);
-    // jest.clearAllMocks()
-  });
-  test.only('Testa se existe uma tabela', async () => {
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(array),
-    }));
-    await act (async () => {
+  //   render(<App />);
+  //   expect(global.fetch).toHaveBeenCalled();
+  //   expect(global.fetch).toHaveBeenCalledWith(url);
+  //   expect(array).not.toHaveLength(0);
+  //   expect(array).toHaveLength(10);
+  //   jest.clearAllMocks()
+  // });
+  test('Testa se existe uma tabela', async () => {
+    // jest.setTimeout(7000);
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    console.log(results);
+    await waitFor(() => {
       render(<App />);
-    })
-    expect(global.fetch).toHaveBeenCalled();
-    const table = screen.getByRole('table');
-    expect(table).toBeInTheDocument();
-    const planet = await screen.findByText('Tatooine');
-    // expect(table).toHaveLength(1);
+    }, {timeout: 5000}) 
+    const planet = await screen.findByText(results[0].name);
     expect(planet).toBeInTheDocument();
-  });
+    jest.clearAllMocks();
+  }, 7000);
+  test('Testa o filtro de nome', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    console.log(results);
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000}) 
+    const nameFilter = screen.getByRole('textbox');
+    userEvent.type(nameFilter, 'oo');
+    // const text = await screen.findAllByRole('oo');
+    // expect(text).toBeInTheDocument();
+    jest.clearAllMocks();
+  }, 7000)
   test('Testa o estado inicial dos filtros', () => {
     render(<App />);
     const columnFilter = screen.getByTestId(/column-filter/i);

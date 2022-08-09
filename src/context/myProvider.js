@@ -14,6 +14,12 @@ function Provider({ children }) {
     comparison: 'maior que',
     value: 0,
   }]);
+  // const [order, setOrder] = useState({
+  //   order: {
+  //     column: 'population',
+  //     sort: 'ASC',
+  //   },
+  // });
 
   const [options, setOptions] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
