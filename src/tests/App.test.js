@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event'
 import App from '../App';
 
@@ -17,6 +18,11 @@ const array = [
 ];
 
 describe('Testes do projeto StarWars', () => {
+  // beforeEach(() => {
+  //   global.fetch = jest.fn(() => Promise.resolve({
+  //     json: () => Promise.resolve(array),
+  //   }));
+  // })
   test('Testa se a requisição a API foi chamada', async () => {
     const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
     global.fetch = jest.fn(() => Promise.resolve({
@@ -27,12 +33,21 @@ describe('Testes do projeto StarWars', () => {
     expect(global.fetch).toHaveBeenCalledWith(url);
     expect(array).not.toHaveLength(0);
     expect(array).toHaveLength(10);
-    jest.clearAllMocks()
+    // jest.clearAllMocks()
   });
-  test('Testa se existe uma tabela', () => {
-    render(<App />);
+  test.only('Testa se existe uma tabela', async () => {
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(array),
+    }));
+    await act (async () => {
+      render(<App />);
+    })
+    expect(global.fetch).toHaveBeenCalled();
     const table = screen.getByRole('table');
     expect(table).toBeInTheDocument();
+    const planet = await screen.findByText('Tatooine');
+    // expect(table).toHaveLength(1);
+    expect(planet).toBeInTheDocument();
   });
   test('Testa o estado inicial dos filtros', () => {
     render(<App />);
@@ -124,7 +139,7 @@ describe('Testes do projeto StarWars', () => {
     expect(columnFilter).toHaveValue('surface_water');
   });
   test('Testa o uso de 3 filtros', () => {
-    render(<App />);
+    render(<App />)
     const comparisonFilter = screen.getByTestId(/comparison-filter/i);
     const columnFilter = screen.getByTestId(/column-filter/i);
     const valueFilter = screen.getByTestId(/value-filter/i);
@@ -140,8 +155,14 @@ describe('Testes do projeto StarWars', () => {
     expect(columnFilter).toHaveValue('surface_water');
     expect(valueFilter).toHaveValue(10);
   });
+  // test('', async () => {
+  //   await act(async () => {
+  //     render(<App />)
+  //   });
+  // })
 });
 
 // https://testing-library.com/docs/dom-testing-library/api-async/#waitfor
 // https://stackoverflow.com/questions/64718253/react-testing-library-how-to-find-text-in-the-document-which-is-updated-by-seti
 // https://stackoverflow.com/questions/60289503/testing-select-element-in-react-with-jest
+// https://github.com/tryber/sd-021-a-project-starwars-planets-search/blob/bruno-riwerson-silva-sd-021-a-project-starwars-planets-search/src/tests/App.test.js
