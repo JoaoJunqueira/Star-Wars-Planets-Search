@@ -45,7 +45,7 @@ describe('Testes do projeto StarWars', () => {
     expect(planet1).not.toBeInTheDocument();
     jest.clearAllMocks();
   }, 7000)
-  test('Testando o filtro 2', async () => {
+  test('Testando o primeiro if do filtro 2, no Form.js', async () => {
     const array2 = await mockFetch();
     const response = await array2.json();
     const results = response.results;
@@ -58,7 +58,30 @@ describe('Testes do projeto StarWars', () => {
     const buttonFilter = screen.getByTestId(/button-filter/i);
     userEvent.click(buttonFilter);
     expect(planet).not.toBeInTheDocument();
-  })
+    jest.clearAllMocks();
+  }, 7000)
+  test('Testando o segundo if do filtro 2, no Form.js', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000})
+    const planet = await screen.findByText('Alderaan');
+
+    const columnFilter = screen.getByTestId(/column-filter/i);
+    const comparisonFilter = screen.getByTestId(/comparison-filter/i);
+    const valueFilter = screen.getByTestId(/value-filter/i);
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+
+    userEvent.selectOptions(comparisonFilter, 'menor que');
+    userEvent.selectOptions(columnFilter, 'surface_water');
+    userEvent.type(valueFilter, '10');
+
+    userEvent.click(buttonFilter);
+    expect(planet).not.toBeInTheDocument();
+    jest.clearAllMocks();
+  }, 7000)
   test('Testa o estado inicial dos filtros', () => {
     render(<App />);
     const columnFilter = screen.getByTestId(/column-filter/i);
