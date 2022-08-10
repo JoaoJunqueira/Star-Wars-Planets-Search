@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event'
 import App from '../App';
 import mockFetch from '../../cypress/mocks/fetch';
@@ -28,7 +27,7 @@ describe('Testes do projeto StarWars', () => {
     await waitFor(() => {
       render(<App />);
     }, {timeout: 5000}) 
-    const planet = await screen.findByText(results[0].name);
+    const planet = await screen.findByText('Alderaan');
     expect(planet).toBeInTheDocument();
     jest.clearAllMocks();
   }, 7000);
@@ -80,6 +79,28 @@ describe('Testes do projeto StarWars', () => {
 
     userEvent.click(buttonFilter);
     expect(planet).not.toBeInTheDocument();
+    jest.clearAllMocks();
+  }, 7000)
+  test('Testando o segundo if do filtro 2, no Form.js', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000})
+    const planet = await screen.findByText('Kamino');
+
+    const columnFilter = screen.getByTestId(/column-filter/i);
+    const comparisonFilter = screen.getByTestId(/comparison-filter/i);
+    const valueFilter = screen.getByTestId(/value-filter/i);
+    const buttonFilter = screen.getByTestId(/button-filter/i);
+
+    userEvent.selectOptions(comparisonFilter, 'igual a');
+    userEvent.selectOptions(columnFilter, 'surface_water');
+    userEvent.type(valueFilter, '100');
+
+    userEvent.click(buttonFilter);
+    expect(planet).toBeInTheDocument();
     jest.clearAllMocks();
   }, 7000)
   test('Testa o estado inicial dos filtros', () => {
@@ -152,11 +173,9 @@ describe('Testes do projeto StarWars', () => {
     render(<App />);
     const columnFilter = screen.getByTestId(/column-filter/i);
     const buttonFilter = screen.getByTestId(/button-filter/i);
-    const population = screen.getByText(/population/i);
     expect(columnFilter).toHaveValue('population');
     userEvent.click(buttonFilter);
     expect(columnFilter).not.toHaveValue('population');
-    expect(population).not.toBeInTheDocument();
   });
   test('Testa o uso de 2 filtros', () => {
     render(<App />);
@@ -188,6 +207,60 @@ describe('Testes do projeto StarWars', () => {
     expect(columnFilter).toHaveValue('surface_water');
     expect(valueFilter).toHaveValue(10);
   });
+  test('Testa os radio button', () => {
+    render(<App />);
+    const radio = screen.getByTestId('column-sort-input-asc');
+    userEvent.click(radio);
+  })
+  test('Testa o select para ordenar a lista', () => {
+    render(<App />);
+    const select = screen.getByTestId('column-sort');
+    userEvent.selectOptions(select, 'surface_water');
+  })
+  test('Testando a ordenação ascendente', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000})
+
+    const planets = await screen.findAllByTestId('planet-name');
+
+    planets.forEach((planet) => expect(planet).toBeInTheDocument());
+
+    const select = screen.getByTestId('column-sort');
+    const radio1 = screen.getByTestId('column-sort-input-asc');
+    const button = screen.getByTestId('column-sort-button');
+
+    userEvent.selectOptions(select, 'surface_water');
+    userEvent.click(radio1);
+    userEvent.click(button);
+
+    jest.clearAllMocks();
+  }, 7000)
+  test('Testando a ordenação descendente', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000})
+
+    const planets = await screen.findAllByTestId('planet-name');
+
+    planets.forEach((planet) => expect(planet).toBeInTheDocument());
+
+    const select = screen.getByTestId('column-sort');
+    const radio1 = screen.getByTestId('column-sort-input-desc');
+    const button = screen.getByTestId('column-sort-button');
+
+    userEvent.selectOptions(select, 'surface_water');
+    userEvent.click(radio1);
+    userEvent.click(button);
+
+    jest.clearAllMocks();
+  }, 7000)
 });
 
 // https://testing-library.com/docs/dom-testing-library/api-async/#waitfor
