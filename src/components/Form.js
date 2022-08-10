@@ -11,6 +11,7 @@ function Form() {
     setValues,
     obj,
     setObj,
+    filterFunction,
     options,
     setOptions } = useContext(Context);
 
@@ -51,10 +52,14 @@ function Form() {
   const filter3 = (item) => item !== col;
 
   const handleClick = () => {
-    const filtrado = state.filter(filter2);
+    const filtrado = state.filter(filter2); // forEach + filter
     setState(filtrado);
+
     const newFilter = filterByNumericValues.concat(obj[0]);
     setValues(newFilter);
+
+    filterFunction();
+
     if (col === 'population') {
       const optionFiltered = options.filter(filter3);
       setOptions(optionFiltered);
@@ -112,6 +117,12 @@ function Form() {
         onClick={ handleClick }
       >
         Ativar Filtro
+      </button>
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+      >
+        Remover todas filtragens
       </button>
     </form>
   );

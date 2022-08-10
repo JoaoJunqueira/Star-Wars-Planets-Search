@@ -9,6 +9,7 @@ function Provider({ children }) {
   const [state, setState] = useState(INITIAL_STATE);
   const [filterByName, setName] = useState('');
   const [filterByNumericValues, setValues] = useState([]);
+  const [filters, setFilters] = useState([]);
   const [obj, setObj] = useState([{
     column: 'population',
     comparison: 'maior que',
@@ -76,6 +77,12 @@ function Provider({ children }) {
     stateSort = state.sort(comparatorDesc);
   }
 
+  const filterFunction = () => {
+    const filtersList = filters.concat(obj[0]);
+    setFilters(filtersList);
+    console.log(filters);
+  };
+
   return (
     <Context.Provider
       value={
@@ -89,6 +96,7 @@ function Provider({ children }) {
           setObj,
           options,
           setOptions,
+          filterFunction,
           order,
           setOrder }
       }
