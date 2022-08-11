@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
+import { dataFilter } from '../helpers/helper';
 
 function Form() {
   const {
@@ -79,24 +80,7 @@ function Form() {
     );
     setValues(filterUpdate);
     setOptions([...options, filterToRemove.column]);
-    let data = [...stateBackup];
-    filterUpdate.forEach((filterToData) => {
-      data = data.filter((planet) => {
-        if (filterToData.comparison === 'maior que'
-        && planet[filterToData.column] !== 'unknown') {
-          return Number(planet[filterToData.column]) > Number(filterToData.value);
-        }
-        if (filterToData.comparison === 'menor que'
-        && planet[filterToData.column] !== 'unknown') {
-          return Number(planet[filterToData.column]) < Number(filterToData.value);
-        }
-        if (filterToData.comparison === 'igual a'
-        && planet[filterToData.column] !== 'unknown') {
-          return Number(planet[filterToData.column]) === Number(filterToData.value);
-        }
-        return true;
-      });
-    });
+    const data = dataFilter(stateBackup, filterUpdate);
     setState(data);
   };
 

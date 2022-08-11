@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event'
 import App from '../App';
 import mockFetch from '../../cypress/mocks/fetch';
 
+const helper = require('../helpers/helper.js')
+
 const array = [
   {name: 'Tatooine', rotation_period: '23', orbital_period: '304', diameter: '10465', climate: 'arid'},
   {name: 'Alderaan', rotation_period: '24', orbital_period: '364', diameter: '12500', climate: 'temperate'},
@@ -298,18 +300,36 @@ describe('Testes do projeto StarWars', () => {
     const columnFilter = screen.getByTestId('column-filter');
     const comparisonFilter = screen.getByTestId('comparison-filter');
     const valueFilter = screen.getByTestId('value-filter');
-    const buttonFilter = screen.getByTestId('button-filter')
+    const addFilter = screen.getByTestId('button-filter');
 
-    // userEvent.selectOptions(columnFilter, 'diameter');
-    // userEvent.selectOptions(comparisonFilter, 'maior que');
-    // userEvent.type(valueFilter, '8900');
-    // userEvent.click(buttonFilter);
+    const rows = await screen.findAllByTestId('planet-name');
+    expect(rows).toHaveLength(10);
 
-    // const rows = await screen.findAllByTestId('planet-name');
-    // expect(rows.length).not.toBe(10);
+    userEvent.selectOptions(columnFilter, 'diameter');
+    userEvent.selectOptions(comparisonFilter, 'maior que');
+    userEvent.type(valueFilter, '8900');
+    userEvent.click(addFilter);
+
+    const rows2 = await screen.findAllByTestId('planet-name');
+    expect(rows2).toHaveLength(7);
 
     jest.clearAllMocks();
   }, 7000)
+  test('', () => {
+    const mockDataFilter = jest.spyOn(helper, 'dataFilter')
+    const filterUpdate = [{
+      comparison: '',
+      }]
+    const filterUpdate2 = [{
+        comparison: 'maior que',
+        value: 0,
+        column: 'orbital_period',
+        }]
+    mockDataFilter(array, filterUpdate);
+    expect(mockDataFilter).toHaveBeenCalled();
+    expect(mockDataFilter(array, filterUpdate)).toStrictEqual(array);
+    expect(mockDataFilter(array, filterUpdate2)).toStrictEqual(array);
+  })
 });
 
 // https://testing-library.com/docs/dom-testing-library/api-async/#waitfor
