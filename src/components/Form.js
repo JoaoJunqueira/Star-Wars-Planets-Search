@@ -11,7 +11,7 @@ function Form() {
     setValues,
     obj,
     setObj,
-    filterFunction,
+    stateBackup,
     options,
     setOptions } = useContext(Context);
 
@@ -49,82 +49,137 @@ function Form() {
     }
   };
 
-  const filter3 = (item) => item !== col;
+  const filter3 = (item) => item !== obj[0].column;
 
   const handleClick = () => {
-    const filtrado = state.filter(filter2); // forEach + filter
+    const filtrado = state.filter(filter2);
     setState(filtrado);
 
     const newFilter = filterByNumericValues.concat(obj[0]);
     setValues(newFilter);
 
-    filterFunction();
+    // filterFunction();
 
-    if (col === 'population') {
-      const optionFiltered = options.filter(filter3);
-      setOptions(optionFiltered);
-    }
+    const optionFiltered = options.filter(filter3);
+    setOptions(optionFiltered);
+
+    setObj([{ ...obj[0], column: optionFiltered[0] }]);
+  };
+
+  const removeAll = () => {
+    setState(stateBackup);
+    setOptions([
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+    setValues([]);
+  };
+
+  const removeOne = (filterToRemove) => {
+    const filterUpdate = filterByNumericValues.filter(
+      (filterRemoved) => filterRemoved.column !== filterToRemove.column,
+    );
+    setValues(filterUpdate);
+    setOptions([...options, filterToRemove.column]);
+    let data = [...stateBackup];
+    filterUpdate.forEach((filterToData) => {
+      data = data.filter((planet) => {
+        if (filterToData.comparison === 'maior que'
+        && planet[filterToData.column] !== 'unknown') {
+          console.log(column);
+          console.log(planet[column]);
+          console.log(filterToData.value);
+          console.log(Number(planet[column]) > Number(filterToData.value));
+          return Number(planet[filterToData.column]) > Number(filterToData.value);
+        }
+        if (filterToData.comparison === 'menor que'
+        && planet[filterToData.column] !== 'unknown') {
+          return Number(planet[filterToData.column]) < Number(filterToData.value);
+        }
+        if (filterToData.comparison === 'igual a'
+        && planet[filterToData.column] !== 'unknown') {
+          return Number(planet[filterToData.column]) === Number(filterToData.value);
+        }
+        return true;
+      });
+    });
+    setState(data);
   };
 
   return (
-    <form>
-      <label htmlFor="name-filter">
-        <input
-          id="name-filter"
-          data-testid="name-filter"
-          type="text"
-          value={ filterByName }
-          onChange={ (e) => setName(e.target.value) }
-        />
-      </label>
-      <label htmlFor="column-filter">
-        <select
-          id="column-filter"
-          data-testid="column-filter"
-          value={ column }
-          onChange={ handleColumn }
+    <div>
+      <form>
+        <label htmlFor="name-filter">
+          <input
+            id="name-filter"
+            data-testid="name-filter"
+            type="text"
+            value={ filterByName }
+            onChange={ (e) => setName(e.target.value) }
+          />
+        </label>
+        <label htmlFor="column-filter">
+          <select
+            id="column-filter"
+            data-testid="column-filter"
+            value={ column }
+            onChange={ handleColumn }
+          >
+            {
+              options.map((option) => <option key={ option }>{option}</option>)
+            }
+          </select>
+        </label>
+        <label htmlFor="comparison-filter">
+          <select
+            id="comparison-filter"
+            data-testid="comparison-filter"
+            value={ comparison }
+            onChange={ handleComparison }
+          >
+            <option>maior que</option>
+            <option>menor que</option>
+            <option>igual a</option>
+          </select>
+        </label>
+        <label htmlFor="value-filter">
+          <input
+            id="value-filter"
+            data-testid="value-filter"
+            type="number"
+            value={ value }
+            defaultValue={ 0 }
+            onChange={ handleValue }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleClick }
         >
-          {
-            options.map((option) => <option key={ option }>{option}</option>)
-          }
-        </select>
-      </label>
-      <label htmlFor="comparison-filter">
-        <select
-          id="comparison-filter"
-          data-testid="comparison-filter"
-          value={ comparison }
-          onChange={ handleComparison }
+          Ativar Filtro
+        </button>
+        <button
+          type="button"
+          data-testid="button-remove-filters"
+          onClick={ removeAll }
         >
-          <option>maior que</option>
-          <option>menor que</option>
-          <option>igual a</option>
-        </select>
-      </label>
-      <label htmlFor="value-filter">
-        <input
-          id="value-filter"
-          data-testid="value-filter"
-          type="number"
-          value={ value }
-          defaultValue={ 0 }
-          onChange={ handleValue }
-        />
-      </label>
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ handleClick }
-      >
-        Ativar Filtro
-      </button>
-      <button
-        type="button"
-        data-testid="button-remove-filters"
-      >
-        Remover todas filtragens
-      </button>
-    </form>
+          Remover todas filtragens
+        </button>
+      </form>
+      {
+        filterByNumericValues.map((filters, index) => (
+          <span key={ index } data-testid="filter">
+            <h6>
+              {filters.column}
+              {filters.comparison}
+              {filters.value}
+            </h6>
+            <button type="button" onClick={ () => removeOne(filters) }>
+              X
+            </button>
+          </span>
+        ))
+      }
+    </div>
   );
 }
 

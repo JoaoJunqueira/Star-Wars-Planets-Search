@@ -18,19 +18,6 @@ const array = [
 ];
 
 describe('Testes do projeto StarWars', () => {
-  test('Testa se existe uma tabela', async () => {
-    // jest.setTimeout(7000);
-    const array2 = await mockFetch();
-    const response = await array2.json();
-    const results = response.results;
-    console.log(results);
-    await waitFor(() => {
-      render(<App />);
-    }, {timeout: 5000}) 
-    const planet = await screen.findByText('Alderaan');
-    expect(planet).toBeInTheDocument();
-    jest.clearAllMocks();
-  }, 7000);
   test('Testa o filtro de nome', async () => {
     const array2 = await mockFetch();
     const response = await array2.json();
@@ -188,7 +175,7 @@ describe('Testes do projeto StarWars', () => {
     const buttonFilter = screen.getByTestId(/button-filter/i);
     userEvent.click(buttonFilter);
     expect(comparisonFilter).toHaveValue('menor que');
-    expect(columnFilter).toHaveValue('surface_water');
+    expect(columnFilter).toHaveValue('population');
   });
   test('Testa o uso de 3 filtros', () => {
     render(<App />)
@@ -204,7 +191,7 @@ describe('Testes do projeto StarWars', () => {
     const buttonFilter = screen.getByTestId(/button-filter/i);
     userEvent.click(buttonFilter);
     expect(comparisonFilter).toHaveValue('menor que');
-    expect(columnFilter).toHaveValue('surface_water');
+    expect(columnFilter).toHaveValue('population');
     expect(valueFilter).toHaveValue(10);
   });
   test('Testa os radio button', () => {
