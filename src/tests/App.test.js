@@ -26,9 +26,9 @@ describe('Testes do projeto StarWars', () => {
       render(<App />);
     }, {timeout: 5000}) 
     const nameFilter = screen.getByRole('textbox');
-    const planet1 = await screen.findByText('Alderaan');
     userEvent.type(nameFilter, 'oo');
-    expect(planet1).not.toBeInTheDocument();
+    const planet1 = await screen.findByText('Tatooine');
+    expect(planet1).toBeInTheDocument();
     jest.clearAllMocks();
   }, 7000)
   test('Testando o primeiro if do filtro 2, no Form.js', async () => {
@@ -75,19 +75,21 @@ describe('Testes do projeto StarWars', () => {
     await waitFor(() => {
       render(<App />);
     }, {timeout: 5000})
-    const planet = await screen.findByText('Kamino');
 
     const columnFilter = screen.getByTestId(/column-filter/i);
     const comparisonFilter = screen.getByTestId(/comparison-filter/i);
     const valueFilter = screen.getByTestId(/value-filter/i);
     const buttonFilter = screen.getByTestId(/button-filter/i);
+    const planet1 = await screen.findByText('Kamino');
+    expect(planet1).toBeInTheDocument();
 
     userEvent.selectOptions(comparisonFilter, 'igual a');
     userEvent.selectOptions(columnFilter, 'surface_water');
     userEvent.type(valueFilter, '100');
 
     userEvent.click(buttonFilter);
-    expect(planet).toBeInTheDocument();
+    const planet2 = await screen.findByText('Kamino');
+    expect(planet2).toBeInTheDocument();
     jest.clearAllMocks();
   }, 7000)
   test('Testa o estado inicial dos filtros', () => {
@@ -245,6 +247,43 @@ describe('Testes do projeto StarWars', () => {
     userEvent.selectOptions(select, 'surface_water');
     userEvent.click(radio1);
     userEvent.click(button);
+
+    jest.clearAllMocks();
+  }, 7000)
+  test('Testa o botão de remover todos os filtros', () => {
+    render(<App />);
+    const removeAll = screen.getByTestId('button-remove-filters');
+    userEvent.click(removeAll);
+  })
+  test('Testa o filtro de nome vazio', () => {
+    render(<App />);
+    const nameFilter = screen.getByTestId('name-filter');
+    expect(nameFilter).toHaveValue('');
+  })
+  test('Testa o botão de remover um único filtro', () => {
+    render(<App />);
+    const addFilter = screen.getByTestId('button-filter');
+    userEvent.click(addFilter);
+    const removeOne = screen.getByText('X');
+    expect(removeOne).toBeInTheDocument();
+    userEvent.click(removeOne);
+  })
+  test('Testando o terceiro if do filtro 2, no Form.js', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000})
+
+    const unknown = await screen.findAllByText('unknown');
+
+    const select = screen.getByTestId('comparison-filter');
+    userEvent.selectOptions(select, 'igual a');
+    const addFilter = screen.getByTestId('button-filter');
+    userEvent.click(addFilter);
+
+    expect(unknown[0]).not.toBeInTheDocument();
 
     jest.clearAllMocks();
   }, 7000)

@@ -84,10 +84,6 @@ function Form() {
       data = data.filter((planet) => {
         if (filterToData.comparison === 'maior que'
         && planet[filterToData.column] !== 'unknown') {
-          console.log(column);
-          console.log(planet[column]);
-          console.log(filterToData.value);
-          console.log(Number(planet[column]) > Number(filterToData.value));
           return Number(planet[filterToData.column]) > Number(filterToData.value);
         }
         if (filterToData.comparison === 'menor que'
@@ -169,9 +165,9 @@ function Form() {
         filterByNumericValues.map((filters, index) => (
           <span key={ index } data-testid="filter">
             <h6>
-              {filters.column}
-              {filters.comparison}
-              {filters.value}
+              <span>{filters.column}</span>
+              <span>{filters.comparison}</span>
+              <span>{filters.value}</span>
             </h6>
             <button type="button" onClick={ () => removeOne(filters) }>
               X
