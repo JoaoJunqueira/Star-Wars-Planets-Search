@@ -287,6 +287,29 @@ describe('Testes do projeto StarWars', () => {
 
     jest.clearAllMocks();
   }, 7000)
+  test('Testando a adição de um filtro', async () => {
+    const array2 = await mockFetch();
+    const response = await array2.json();
+    const results = response.results;
+    await waitFor(() => {
+      render(<App />);
+    }, {timeout: 5000})
+
+    const columnFilter = screen.getByTestId('column-filter');
+    const comparisonFilter = screen.getByTestId('comparison-filter');
+    const valueFilter = screen.getByTestId('value-filter');
+    const buttonFilter = screen.getByTestId('button-filter')
+
+    // userEvent.selectOptions(columnFilter, 'diameter');
+    // userEvent.selectOptions(comparisonFilter, 'maior que');
+    // userEvent.type(valueFilter, '8900');
+    // userEvent.click(buttonFilter);
+
+    // const rows = await screen.findAllByTestId('planet-name');
+    // expect(rows.length).not.toBe(10);
+
+    jest.clearAllMocks();
+  }, 7000)
 });
 
 // https://testing-library.com/docs/dom-testing-library/api-async/#waitfor
