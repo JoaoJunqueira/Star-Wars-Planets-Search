@@ -11,6 +11,6 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 
 Projeto StarWars
 
-Este projeto tem como objetivo criar uma tabela com os planetas da franquia StarWars, em que o usuário pode filtrar os elementos da tabela com base em algumas características do planeta.
+Este projeto tem como objetivo criar uma tabela com os planetas da franquia StarWars, em que o usuário pode filtrar os elementos da tabela com base em algumas características do planeta.<br>
 Exemplo: Se quisemos um planeta com a população acima de X valor nós configuramos os filtros para population, more than e X.
 Nesse projeto da Trybe também foram aplicados ao projeto de Front-end testes assíncronos, fornecendo 100% de cobertura (Os testes podem ser encontrados no path src/tests/App.test.js)
