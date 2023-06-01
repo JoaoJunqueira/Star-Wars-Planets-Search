@@ -1,4 +1,3 @@
-# :construction: README em construção ! :construction:
 <!-- Olá, Tryber!
 Esse é apenas um arquivo inicial para o README do seu projeto.
 É essencial que você preencha esse documento por conta própria, ok?
@@ -9,7 +8,7 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
 
-Projeto StarWars
+# Projeto StarWars
 
 Este projeto tem como objetivo criar uma tabela com os planetas da franquia StarWars, em que o usuário pode filtrar os elementos da tabela com base em algumas características do planeta.<br>
 Exemplo: Se quisemos um planeta com a população acima de X valor nós configuramos os filtros para population, more than e X.<br>
