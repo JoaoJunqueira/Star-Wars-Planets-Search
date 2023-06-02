@@ -22,7 +22,7 @@ function Table() {
 
   return (
     <div>
-      <table>
+      <table className="table table-hover">
         <thead>
           <tr>
             { keys !== undefined
@@ -42,10 +42,6 @@ function Table() {
                 <td>{item.terrain}</td>
                 <td>{item.surface_water}</td>
                 <td>{item.population}</td>
-                <td>{item.films}</td>
-                <td>{item.created}</td>
-                <td>{item.edited}</td>
-                <td>{item.url}</td>
               </tr>
             )) : null
           }
