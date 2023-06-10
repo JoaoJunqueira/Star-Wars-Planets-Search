@@ -1,6 +1,6 @@
 # Projeto StarWars: Explore a Galáxia!
 
-Bem-vindo ao **Projeto StarWars**, uma aventura épica que o levará a uma jornada pelos planetas da famosa franquia Star Wars! Nosso objetivo é fornecer uma tabela interativa repleta de informações fascinantes sobre esses mundos distantes.
+Bem-vindo ao **Projeto StarWars**, uma aventura épica que o levará a uma jornada pelos planetas da famosa franquia Star Wars!
 
 Imagine poder filtrar os planetas com base em características específicas. Se você está procurando um planeta com uma população acima de um determinado valor, não precisa mais procurar em uma imensa lista. Basta configurar os filtros para "população", "maior que" e inserir o valor desejado. A tabela será atualizada instantaneamente, revelando os planetas que se encaixam nos seus critérios de busca.
 
