@@ -1,17 +1,18 @@
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Projeto StarWars: Explore a Galáxia!
 
-# Projeto StarWars
+Bem-vindo ao **Projeto StarWars**, uma aventura épica que o levará a uma jornada pelos planetas da famosa franquia Star Wars! Nosso objetivo é fornecer uma tabela interativa repleta de informações fascinantes sobre esses mundos distantes.
 
-Este projeto tem como objetivo criar uma tabela com os planetas da franquia StarWars, em que o usuário pode filtrar os elementos da tabela com base em algumas características do planeta.<br>
-Exemplo: Se quisemos um planeta com a população acima de X valor nós configuramos os filtros para population, more than e X.<br>
-Nesse projeto da Trybe também foram aplicados ao projeto de Front-end testes assíncronos, fornecendo 100% de cobertura (Os testes podem ser encontrados no path src/tests/App.test.js)<br>
+Imagine poder filtrar os planetas com base em características específicas. Se você está procurando um planeta com uma população acima de um determinado valor, não precisa mais procurar em uma imensa lista. Basta configurar os filtros para "população", "maior que" e inserir o valor desejado. A tabela será atualizada instantaneamente, revelando os planetas que se encaixam nos seus critérios de busca.
 
-Stacks: ReactJs, Javascript, Context API, Jest, Bootstrap
+Este projeto incrível, desenvolvido pela **Trybe**, também incluiu testes assíncronos que proporcionaram uma cobertura completa de 100%. Temos muito orgulho em fornecer um código robusto e confiável para garantir uma experiência suave e sem problemas aos nossos usuários. Caso queira conferir, os testes podem ser encontrados no caminho `src/tests/App.test.js`.
+
+Principais tecnologias utilizadas neste projeto:
+- **ReactJs**: Uma biblioteca JavaScript de renome mundial para criar interfaces de usuário interativas e reativas.
+- **JavaScript**: A linguagem de programação mais popular que dá vida à lógica por trás do nosso projeto.
+- **Context API**: Uma poderosa ferramenta do React para gerenciar o estado da aplicação de forma eficiente.
+- **Jest**: Um framework de teste robusto que nos permite garantir a qualidade do nosso código.
+- **Bootstrap**: Uma biblioteca de componentes e estilos para agilizar a estilização do nosso projeto.
+
+Gostaríamos de salientar que a estilização do projeto está em processo. Estamos dedicados a aprimorar a experiência visual para que você possa mergulhar ainda mais na atmosfera de Star Wars enquanto explora a tabela dos planetas.
+
+Prepare-se para embarcar em uma jornada épica pela galáxia de Star Wars. Explore os planetas, descubra curiosidades e mergulhe em um universo repleto de possibilidades. Que a Força esteja com você!
