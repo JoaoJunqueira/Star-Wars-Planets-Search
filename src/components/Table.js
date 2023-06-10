@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Context from '../context/Context';
+import '../styles/Table.css';
 
 function Table() {
   const { state, filterByName, setName } = useContext(Context);
@@ -22,7 +23,7 @@ function Table() {
 
   return (
     <div>
-      <table className="table table-hover">
+      <table id="planet-table" className="table table-dark table-hover">
         <thead>
           <tr>
             { keys !== undefined

@@ -58,6 +58,7 @@ function Sort() {
       </label>
       <button
         type="button"
+        className="btn btn-warning"
         data-testid="column-sort-button"
         onClick={ handleSort }
       >

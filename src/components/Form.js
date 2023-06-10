@@ -132,6 +132,7 @@ function Form() {
         </label>
         <button
           type="button"
+          className="btn btn-light"
           data-testid="button-filter"
           onClick={ handleClick }
         >
@@ -139,6 +140,7 @@ function Form() {
         </button>
         <button
           type="button"
+          className="btn btn-danger"
           data-testid="button-remove-filters"
           onClick={ removeAll }
         >
