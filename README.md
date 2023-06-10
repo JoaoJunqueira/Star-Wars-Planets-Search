@@ -14,4 +14,4 @@ Este projeto tem como objetivo criar uma tabela com os planetas da franquia Star
 Exemplo: Se quisemos um planeta com a população acima de X valor nós configuramos os filtros para population, more than e X.<br>
 Nesse projeto da Trybe também foram aplicados ao projeto de Front-end testes assíncronos, fornecendo 100% de cobertura (Os testes podem ser encontrados no path src/tests/App.test.js)<br>
 
-Stacks: ReactJs, Javascript, Context API, Jest
+Stacks: ReactJs, Javascript, Context API, Jest, Bootstrap
