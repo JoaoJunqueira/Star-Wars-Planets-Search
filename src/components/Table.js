@@ -22,8 +22,11 @@ function Table() {
   };
 
   return (
-    <div>
-      <table id="planet-table" className="table table-dark table-hover">
+    <div className="d-flex align-items-center justify-content-center">
+      <table
+        id="planet-table"
+        className="table table-dark table-hover"
+      >
         <thead>
           <tr>
             { keys !== undefined
